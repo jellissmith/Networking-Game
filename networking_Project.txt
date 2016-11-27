@@ -1,0 +1,3 @@
+Gomoku:
+
+Gomoku is a game where you have a 9X9 board and pebbles, or pieces. Each opponent takes turns plaing a single pebble, or piece, on an intersection line on the board. If either player can get a 5 in a row either diagonally or horizontally (without the sequence of pieces being interuppted by the opponent), that player wins.

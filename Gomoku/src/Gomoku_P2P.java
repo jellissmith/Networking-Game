@@ -1,33 +1,40 @@
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Gomoku_P2P {
+public class Gomoku_P2P extends Thread{
 
-	String hostName1;
-	String hostName2;
+	InetAddress hostName;
+
 	
-	int portNumber1;
-	int portNumber2;
+	int portListen;
+	int portSend;
+	protected Board board;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Gomoku_P2P temp = new Gomoku_P2P();
-		try {
+		//Gomoku_P2P temp = new Gomoku_P2P();
+		/*try {
 			System.out.println("Hi");
-			temp.CreateTCPServer(0, 11111);
+			temp.CreateTCPServer(11111);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-		}
+		}*/
 		
 		
 	}
@@ -35,51 +42,80 @@ public class Gomoku_P2P {
 	//constructor
 	public Gomoku_P2P()
 	{
-		
+
 		
 	}
 	
 	//TCP Server
-	private void CreateTCPServer(int Socket, int port) throws IOException
+	public void CreateTCPServer() throws IOException
 	{
-		ServerSocket serverSocket = new ServerSocket(port);
-		Socket clientSocket = serverSocket.accept();
-		//PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		String userInput = in.readLine();
-		System.out.println("Client said: " + userInput);
-		
+		ServerSocket serverSocket = new ServerSocket(portListen);
+		int row;
+		int col;
+		while(true){
+			Socket clientSocket = serverSocket.accept();
+			//PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+			//BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			DataInputStream in = new DataInputStream(clientSocket.getInputStream());
+			//String userInput = in.readLine();
+			//System.out.println("Client said: " + userInput);
+			row = in.readInt();
+			col = in.readInt();
+			
+			board.addPiece(row, col);
+		}
 	}
 	
 	//TCP Client
-	private void CreateTCPClient(int socket) throws IOException
+	public void CreateTCPClient() throws IOException
 	{
-		Socket clientSocket = new Socket("localhost", 11111);
+		System.out.println("Hi");
+		Socket clientSocket = new Socket(hostName, portSend);
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-		outToServer.writeBytes("Suh dude");
-		
+		//outToServer.writeBytes("Suh dude");
+		outToServer.writeInt(board.getPlayersRow());
+		outToServer.writeInt(board.getPlayersCol());
+		clientSocket.close();
+	}
+	
+	//set portNumbers for the two players.
+	public void setPortListen(int portListen)
+	{
+		this.portListen = portListen;
 		
 	}
 	
 	//set portNumbers for the two players.
-	public void setPortNumber(int player, int portNumber)
+	public void setPortSend(int portSend)
 	{
-		
-		
+		this.portSend = portSend;
+			
 	}
 	
 	//set hostNames for both players.
-	public void setHostName(int player, String name)
+	public void setHostName(String playerAddr)
 	{
-		
+		try {
+			hostName = InetAddress.getByName(playerAddr);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		
 	}
 	
 	//send board to other player to update board and end the turn.
-	public void sendBoard()
+	public void setBoard(Board board)
 	{
-		
+		this.board = board;
 		
 	}
+	public Board getBoard()
+	{
+		return board;
+		
+	}
+	
 
 }

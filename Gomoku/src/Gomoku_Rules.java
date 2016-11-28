@@ -1,30 +1,53 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
+import javax.swing.JPanel;
+
 
 public class Gomoku_Rules extends Gomoku_GUI {
 
-	private String hostName = "";
-	private String port = "";
-	
-	private boolean whitesTurn = false;
+	protected Board panel;
+	protected JButton btnPlay;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void connect()
+	public Gomoku_Rules()
 	{
-		btnConnect = new JButton("Connect");
-		btnConnect.setBounds(545, 7, 117, 25);
+		btnConnect = new JButton("Listen");
+		btnConnect.setBounds(12, 45, 117, 25);
 		frame.getContentPane().add(btnConnect);
+		
+		btnPlay = new JButton("Play");
+		btnPlay.setBounds(608, 107, 117, 25);
+		frame.getContentPane().add(btnPlay);
+		
+		panel = new Board();
+		panel.setBounds(29, 85, 450, 450);
+		frame.getContentPane().add(panel);
+		
 	}
+
 	
 	public JButton getBtnConnect()
 	{
 		
 		return btnConnect;
+	}
+	
+	public JButton getBtnPlay()
+	{
+		return btnPlay;
+		
 	}
 	public String getHostName()
 	{
@@ -32,23 +55,26 @@ public class Gomoku_Rules extends Gomoku_GUI {
 		
 	}
 	
-	public String getPortNum()
+	public int getPortList()
 	{
-		return PortTextField.getText();
+		return Integer.parseInt(RecTextField.getText());
+		
+	}
+
+	public int getPortSend()
+	{
+		return Integer.parseInt(SendTextField.getText());
+	}
+	
+	public Board getBoard()
+	{
+		return panel;
 		
 	}
 	
-	public void setHostName(String hostName)
-	{
-		this.hostName = hostName;
-		
-	}
 	
-	public void setPortNum(String port)
-	{
-		this.port = port;
-		
-	}
 	
-}
+	
+}//end Gomoku Rules.
+
 

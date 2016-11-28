@@ -1,6 +1,11 @@
 import java.awt.EventQueue;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,13 +18,14 @@ import java.awt.Canvas;
 public class Gomoku_GUI {
 
 	private JLabel HostNamelbl;
-	private JLabel Portlbl;
+	private JLabel PortRecievelbl;
 	protected JFrame frame;
 	protected JTextField HostNameTextField;
-	protected JTextField PortTextField;
+	protected JTextField RecTextField;
 	protected Canvas canvasBoard;
 	protected JButton btnConnect;
-	protected JPanel panel;
+	protected JTextField SendTextField;
+	
 
 	/**
 	 * Launch the application.
@@ -30,6 +36,7 @@ public class Gomoku_GUI {
 				try {
 					Gomoku_GUI window = new Gomoku_GUI();
 					window.frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,7 +56,7 @@ public class Gomoku_GUI {
 	 */
 	private void createGUI() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 666, 561);
+		frame.setBounds(100, 100, 889, 561);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -63,46 +70,30 @@ public class Gomoku_GUI {
 		HostNamelbl.setBounds(12, 12, 117, 15);
 		frame.getContentPane().add(HostNamelbl);
 		
-		Portlbl = new JLabel("Port: ");
-		Portlbl.setBounds(361, 12, 70, 15);
-		frame.getContentPane().add(Portlbl);
+		PortRecievelbl = new JLabel("Port Recieve: ");
+		PortRecievelbl.setBounds(361, 12, 114, 15);
+		frame.getContentPane().add(PortRecievelbl);
 		
-		PortTextField = new JTextField();
-		PortTextField.setBounds(409, 10, 114, 19);
-		frame.getContentPane().add(PortTextField);
-		PortTextField.setColumns(10);
+		RecTextField = new JTextField();
+		RecTextField.setBounds(466, 10, 114, 19);
+		frame.getContentPane().add(RecTextField);
+		RecTextField.setColumns(10);
 		
-		createBoard();
+		JLabel PortSendlbl = new JLabel("port to Send:");
+		PortSendlbl.setBounds(585, 12, 136, 15);
+		frame.getContentPane().add(PortSendlbl);
+		
+		SendTextField = new JTextField();
+		SendTextField.setBounds(693, 10, 114, 19);
+		frame.getContentPane().add(SendTextField);
+		SendTextField.setColumns(10);
+		
 		
 	}
 
-	public void createBoard()
-	{
-		panel = new JPanel(){
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				for(int i = 0; i< 9; i++){
-					for(int j = 0; j<9; j++){
-						//i is the column. j is the row. start in column 1 and fill in 9 rows, etc. [x,y, width, height]
-						g.drawRect((i+1)*40, (j+1)*40, 40, 40);
-					}
-				}
-			}
-	    };
-		panel.setBounds(29, 85, 450, 450);
-		frame.getContentPane().add(panel);
-		
-	}
+
+
 	
-	public void placePiece(String color)
-	{
-		if(color == "black")
-		{
-			
-			
-		}
-		
-	}
 	
 	public int getXCoords()
 	{

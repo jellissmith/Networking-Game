@@ -69,10 +69,8 @@ public class Gomoku_P2P extends Thread{
 	//TCP Client
 	public void CreateTCPClient() throws IOException
 	{
-		System.out.println("Hi");
 		Socket clientSocket = new Socket(hostName, portSend);
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-		//outToServer.writeBytes("Suh dude");
 		outToServer.writeInt(board.getPlayersRow());
 		outToServer.writeInt(board.getPlayersCol());
 		clientSocket.close();
